@@ -8,6 +8,16 @@ const userUnAuthorized = () => {
     if (localStorage.getItem('access_token') == null) {
         return true
     }
+
+    if (localStorage.getItem('expire_time') <= Date.now()) {
+        return true
+    }
+
+    if (localStorage.getItem('access_token') == null) {
+        return true
+    }
+
+    return false
 }
 
 const App = () => {
