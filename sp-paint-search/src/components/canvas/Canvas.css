@@ -1,0 +1,14 @@
+.outer {
+    padding-top: 60px;
+}
+
+.canvas {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.color-choose {
+    margin-top: 40px;
+}

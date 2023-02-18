@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Home from './Home';
-import UnAuthorized from './UnAuthorized';
+import Home from './pages/Home';
+import UnAuthorized from './pages/UnAuthorized';
 
 
 const userUnAuthorized = () => {

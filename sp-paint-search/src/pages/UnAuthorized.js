@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import { Buffer } from 'buffer';
+import {Buffer} from 'buffer';
 
 const scope = 'user-read-private';
 const state = '123'

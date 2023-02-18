@@ -1,0 +1,63 @@
+.top-bar {
+    position: absolute;
+    height: 60px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+
+.outer-rectangle {  
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+
+    background: #9793BD;
+}
+
+.spotify-icon {
+    position: absolute;
+    width: 60px;
+    left: calc(50% - 70px/2 - 153px);
+    top: 0px;
+    bottom: 0px;
+}
+
+.title {
+    position: absolute;
+    width: 306px;
+    left: calc(50% - 306px/2 + 33.5px);
+    top: -30px;
+    bottom: 9px;
+
+    font-family: 'Monofett';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 52px;
+
+    /* identical to box height */
+
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+.guide {
+    position: absolute;
+    width: 39px;
+    height: 14px;
+    left: 19px;
+    top: calc(50% - 14px/2);
+}
+
+.about {
+    position: absolute;
+    width: 42px;
+    height: 14px;
+    left: 91px;
+    top: calc(50% - 14px/2);
+}
