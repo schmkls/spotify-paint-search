@@ -1,14 +1,30 @@
 .outer {
     padding-top: 60px;
+    width: 700px;
+    height: 1020px;
 }
 
 .canvas {
-    width: 100%;
-    height: 100%;
     max-width: 400px;
     max-height: 400px;
 }
 
 .color-choose {
     margin-top: 40px;
+}
+
+.brushes {
+    position: fixed;
+    top: 550px;
+    left: 230px;
+    width: 0px;
+    float: left;
+}
+
+.slider {
+    transform: rotate(270deg);
+    position: fixed;
+    left: 220px;
+    top: 300px;
+    width: 400px;
 }

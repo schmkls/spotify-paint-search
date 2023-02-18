@@ -30,7 +30,7 @@ const App = () => {
     )
 }
 
-
+document.body.style.overflow = "hidden"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <div>
