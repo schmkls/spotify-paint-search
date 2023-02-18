@@ -1,12 +1,16 @@
 import TopBar from '../components/topbar/TopBar'
 import Canvas from '../components/canvas/Canvas'
+import Album from '../components/album/Album'
 
 const Home = () => {
+
+
 
     return (
         <div>
             <TopBar/>
-            <Canvas witdht={400} height={400}/>
+            <Canvas/>
+            <Album uri={'spotify:album:4EIy8sPngI3BDqykTtjGON'}></Album>
         </div>
     )
 }
