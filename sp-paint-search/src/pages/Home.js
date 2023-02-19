@@ -1,16 +1,15 @@
 import TopBar from '../components/topbar/TopBar'
 import Canvas from '../components/canvas/Canvas'
-import Album from '../components/album/Album'
+import AlbumGrid from '../components/albumGrid/AlbumGrid'
+import './Home.css'
 
 const Home = () => {
 
-
-
     return (
-        <div>
+        <div className='grid-container'>
             <TopBar/>
             <Canvas/>
-            <Album uri={'spotify:album:4EIy8sPngI3BDqykTtjGON'}></Album>
+            <AlbumGrid/>
         </div>
     )
 }

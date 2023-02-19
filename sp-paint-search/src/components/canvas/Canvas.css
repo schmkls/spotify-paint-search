@@ -1,7 +1,6 @@
 .outer {
     padding-top: 60px;
-    width: 700px;
-    height: 1020px;
+    width: 50%;
 }
 
 .canvas {
@@ -10,21 +9,16 @@
 }
 
 .color-choose {
-    margin-top: 40px;
+    max-width: 400px;
+    left: 0px;
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0px;
 }
 
 .brushes {
-    position: fixed;
-    top: 550px;
-    left: 230px;
+    position: relative;
     width: 0px;
-    float: left;
-}
-
-.slider {
-    transform: rotate(270deg);
-    position: fixed;
-    left: 220px;
-    top: 300px;
-    width: 400px;
+    justify-self: left;
 }
