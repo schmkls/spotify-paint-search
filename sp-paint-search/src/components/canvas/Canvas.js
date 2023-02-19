@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactCanvasPaint from 'react-canvas-paint'
 import 'react-canvas-paint/dist/index.css'
 import { SketchPicker } from 'react-color';
@@ -9,13 +9,18 @@ import './Canvas.css'
 
 
 
-const Canvas = () => {
+const Canvas = ({onImageDataChange}) => {
     //color to add to ReactCanvasPaint
     const [color, setColor] = useState("#fff");
 
     //options for ReactCanvasPaint
     const [choosableColors, setChoosableColors] = useState([]);
     const [strokeWidth, setStrokeWidth] = useState(100);
+    const [draw, setDraw] = useState(undefined)
+
+    useEffect(() => {
+        onImageDataChange(draw)
+    }, [draw])
 
     const chooseCurrentColor = () => {
         setChoosableColors([...choosableColors, color]);
@@ -25,6 +30,7 @@ const Canvas = () => {
         <div className='outer'>
             <div className='canvas'>
                 <ReactCanvasPaint 
+                    onDraw={setDraw}
                     colors={choosableColors}
                     strokeWidth={strokeWidth}
                 />

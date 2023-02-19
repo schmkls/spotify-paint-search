@@ -1,16 +1,17 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { spotifyIdFromLink } from "../../func/commonSpotifyFuncs"
 import Playlist from "../playlist/Playlist"
 import LikedSongs from "../playlist/LikedSongs"
 import './SearchOptions.css'
 
 
-const SearchOptions = () => {
+const SearchOptions = ({onAlbumsChoose}) => {
 
     const [detail, setDetail] = useState(50)
     const [includeLikedSongs, setIncludeLikedSongs] = useState(true)
     const [playlistLink, setPlaylistLink] = useState('')
     const [playlists, setPlaylists] = useState([])
+    const [albums, setAlbums] = useState([])
 
     const handlePlaylistSubmit = () => {
         console.log('submitting playlist link: ' + playlistLink);
@@ -31,6 +32,10 @@ const SearchOptions = () => {
         console.log('removing liked songs');
         setIncludeLikedSongs(false)
     }
+
+    useEffect(() => {
+        onAlbumsChoose(albums)
+    }, [albums])
 
     return (
         <div className="outer">
