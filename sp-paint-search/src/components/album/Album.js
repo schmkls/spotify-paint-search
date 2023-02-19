@@ -4,7 +4,8 @@ import './Album.css'
 
 const Album = ({uri}) => {
 
-    const [album, setAlbum] = useState()
+    const [album, setAlbum] = useState(null)
+
     const [hover, setHover] = useState(false)
     const id = spotifyIdFromUri(uri)
 
@@ -35,6 +36,14 @@ const Album = ({uri}) => {
         window.open(album.external_urls.spotify, '_blank').focus();
     }
 
+    if (album === null || album === undefined) {
+        return (
+            <div className='album'>
+
+            </div>
+        )
+    }
+
 
     return (
         <div
@@ -51,7 +60,7 @@ const Album = ({uri}) => {
                                 className='hover-spotify-logo'
                                 onClick={() => openAlbum()}
                                 />
-                            <label className='hover-album-data'>{album.name} - {album.artists[0].name}</label>
+                            <label className='hover-album-data'>{album?.name} - {album?.artists[0].name}</label>
                         </div>
                         
                     : 
