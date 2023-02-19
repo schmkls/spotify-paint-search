@@ -1,6 +1,7 @@
 .playlist {
     background-color: beige;
     height: 50px;
+    border-bottom: 1px solid gray;
 }
 
 .playlist-image {
