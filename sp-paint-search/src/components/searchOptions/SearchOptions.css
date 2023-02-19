@@ -1,0 +1,15 @@
+.outer {
+    max-width: 400px;
+}
+
+.labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 180px;
+}
+
+
+.slider {
+    width: 300px;
+}
+

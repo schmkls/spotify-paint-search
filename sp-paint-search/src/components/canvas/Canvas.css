@@ -1,6 +1,7 @@
 .outer {
     padding-top: 60px;
     width: 50%;
+    min-width: 400px;
 }
 
 .canvas {

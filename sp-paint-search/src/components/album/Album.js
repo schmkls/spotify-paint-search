@@ -8,11 +8,11 @@ const Album = ({uri}) => {
     const [hover, setHover] = useState(false)
     const id = spotifyIdFromUri(uri)
 
-    const handleMouseEnter = () => {
+    const handleMouseOver = () => {
         setHover(true);
     };
     
-    const handleMouseLeave = () => {
+    const handleMouseOut = () => {
         setHover(false);
     };
 
@@ -38,8 +38,8 @@ const Album = ({uri}) => {
 
     return (
         <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
             className='album'>
             {
                 hover ? 
