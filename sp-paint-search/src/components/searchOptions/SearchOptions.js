@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { spotifyIdFromLink } from "../../func/commonSpotifyFuncs"
 import Playlist from "../playlist/Playlist"
+import LikedSongs from "../playlist/LikedSongs"
 import './SearchOptions.css'
+
 
 const SearchOptions = () => {
 
@@ -25,9 +27,13 @@ const SearchOptions = () => {
         console.log('removing playlist: ' + playlist);
     }
 
+    const handleLikedSongsRemove = () => {
+        console.log('removing liked songs');
+        setIncludeLikedSongs(false)
+    }
+
     return (
         <div className="outer">
-            <br/>
             <div className="labels">
                 <label>Unprecise</label>
                 <label>Detailed</label>
@@ -39,17 +45,20 @@ const SearchOptions = () => {
                 max='100' 
                 onChange={(e) => setDetail(e.target.value)}
                 className='slider'/>
-                <br/>
-                <br/>
-                <br/>
-                <label>Playlist link: </label>
-                <input type="text" id="playlist" name="playlist" onChange={(e) => setPlaylistLink(e.target.value)}/>
-                <button onClick={() => handlePlaylistSubmit()}>Add</button>
-                {
-                    playlists.map((playlist) => 
-                        <Playlist id={playlist} key={playlist} onRemove={(id) => handlePlaylistRemove(id)}/>
-                    )
-                }
+            <br/>
+            <br/>
+            <br/>
+            <label>Playlist link: </label>
+            <input type="text" id="playlist" name="playlist" onChange={(e) => setPlaylistLink(e.target.value)}/>
+            <button onClick={() => handlePlaylistSubmit()}>Add</button>
+            {
+                includeLikedSongs ? <LikedSongs onRemove={() => handleLikedSongsRemove()}/> : <></>
+            }
+            {
+                playlists.map((playlist) => 
+                    <Playlist id={playlist} key={playlist} onRemove={(id) => handlePlaylistRemove(id)}/>
+                )
+            }
         </div>
     )
 }

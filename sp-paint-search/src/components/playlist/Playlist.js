@@ -3,7 +3,7 @@ import './Playlist.css'
 
 const Playlist = ({id, onRemove}) => {
 
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState(null)
     const [name, setName] = useState('')
 
     useEffect(() => {
@@ -25,7 +25,10 @@ const Playlist = ({id, onRemove}) => {
     return (
         <div className='playlist'>
             <label>{name}</label>
-            <img src={image} className='playlist-image'/>
+            {
+                image === null ? <label>Searching for playlist...</label> : 
+                <img src={image} className='playlist-image'/>
+            }
             <button onClick={() => onRemove(id)} className='remove-button'>X</button>
         </div>
     )

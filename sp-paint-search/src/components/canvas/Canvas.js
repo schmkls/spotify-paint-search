@@ -23,10 +23,6 @@ const Canvas = () => {
 
     return (
         <div className='outer'>
-            <button
-                onClick={() => window.location.reload()}>
-                Clear
-            </button>
             <div className='canvas'>
                 <ReactCanvasPaint 
                     colors={choosableColors}
