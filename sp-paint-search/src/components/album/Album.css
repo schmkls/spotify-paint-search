@@ -1,6 +1,6 @@
 .album {
-    width: 200px;
-    height: 240px;
+    width: 260px;
+    height: 290px;
 }
 
 .hover {
@@ -19,7 +19,7 @@
 
 .hover-album-data {
     background-color: white;
-    max-width: 100px;
+    max-width: 260px;
     bottom: 0;
     left: 0;
 }

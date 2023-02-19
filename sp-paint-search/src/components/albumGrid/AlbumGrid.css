@@ -1,9 +1,10 @@
 .album-grid {
     position: relative;
-    top: 100px;
+    margin-top: 60px;
 }
 
-.container {
-    
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;   
 }
 
