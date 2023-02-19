@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import './Playlist.css'
 
 const Playlist = ({id, onRemove}) => {
 
@@ -17,13 +18,15 @@ const Playlist = ({id, onRemove}) => {
         .then(response => response.json())
         .then(json => {
             setImage(json.images[0].url)
+            setName(json.name)
         })
     })
 
     return (
         <div className='playlist'>
-            <img src={image} width={40}/>
-            <button onClick={() => onRemove(id)}>Remove</button>
+            <label>{name}</label>
+            <img src={image} className='playlist-image'/>
+            <button onClick={() => onRemove(id)} className='remove-button'>X</button>
         </div>
     )
 }
