@@ -46,14 +46,17 @@ const Album = ({uri}) => {
 
 
     return (
-        <div
-            onMouseOver={handleMouseOver}
-            onMouseOut={handleMouseOut}
-            className='album'>
+        <div className='album'>
             {
                 hover ? 
                         <div className='hover'>
-                            <img src={album?.images[0]?.url} alt="cover" width={260} className="cover"/>
+                            <img 
+                                src={album?.images[0]?.url} 
+                                alt="cover" 
+                                width={260} 
+                                onMouseOver={handleMouseOver}
+                                onMouseOut={handleMouseOut}
+                                className="cover"/>
                             <img 
                                 src={'/icons/SPOTIFY_ICON.png'} 
                                 alt='spotify_icon' 
@@ -64,7 +67,13 @@ const Album = ({uri}) => {
                         </div>
                         
                     : 
-                        <img src={album?.images[0]?.url} alt="cover" width={180} className="cover-small"/>
+                        <img 
+                            src={album?.images[0]?.url} 
+                            alt="cover" 
+                            width={180} 
+                            onMouseOver={handleMouseOver}
+                            onMouseOut={handleMouseOut}
+                            className="cover-small"/>
             }
         </div>
        
