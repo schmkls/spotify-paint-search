@@ -24,11 +24,11 @@ const Playlist = ({id, onRemove}) => {
 
     return (
         <div className='playlist'>
-            <label>{name}</label>
             {
                 image === null ? <label>Searching for playlist...</label> : 
                 <img src={image} className='playlist-image'/>
             }
+            <label className='name-label'>  {name}</label>
             <button onClick={() => onRemove(id)} className='remove-button'>X</button>
         </div>
     )

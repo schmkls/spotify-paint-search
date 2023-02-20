@@ -7,8 +7,8 @@ const LikedSongs = ({onRemove}) => {
 
     return (
         <div className='playlist'>
+            <FontAwesomeIcon icon={faHeart} size="lg"/>
             <label>Liked Songs</label>
-            <FontAwesomeIcon icon={faHeart} size="xs"/>
             <button onClick={() => onRemove()} className='remove-button'>X</button>
         </div>
 

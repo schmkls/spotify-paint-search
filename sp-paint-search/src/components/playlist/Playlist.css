@@ -12,3 +12,8 @@
 .remove-button {
     float: right;
 }
+
+.name-label {
+    position: relative;
+    bottom: 33%;
+}

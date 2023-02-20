@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { spotifyIdFromLink } from "../../func/commonSpotifyFuncs"
+import { spotifyIdFromLink, getAlbumsFromPlaylistId} from "../../func/commonSpotifyFuncs"
 import Playlist from "../playlist/Playlist"
 import LikedSongs from "../playlist/LikedSongs"
 import './SearchOptions.css'
@@ -35,10 +35,25 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
         setIncludeLikedSongs(false)
     }
 
+    //set albums whenever playlists change
+    useEffect(() => {
+        if (playlists.length == 0) {
+            return;
+        }
+        getAlbumsFromPlaylistId(playlists[0])
+        .then((albums) => {
+            console.log('got albums from playlist: ' + playlists[0] + albums);
+            setAlbums(albums)
+        })
+        .catch((err) => console.log(err))
+    }, [playlists])
+
+    //feed up albums
     useEffect(() => {
         onAlbumsChoose(albums)
     }, [albums])
 
+    //feed up detail level
     useEffect(() => {
         onDetaiLevelChange(detail)
     }, [detail])
