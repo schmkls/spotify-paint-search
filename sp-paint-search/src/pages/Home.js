@@ -37,11 +37,6 @@ const Home = () => {
         setSearchAlbums(albums)
     }
 
-    useEffect(() => {
-        //todo: match albums and set result albums
-    }, [searchAlbums, detailLevel, imageData])
-
-
 
     return (
         <div className='grid-container'>

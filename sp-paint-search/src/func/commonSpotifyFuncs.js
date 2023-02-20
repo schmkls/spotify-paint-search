@@ -29,6 +29,7 @@ export const getAlbumsFromPlaylistId = async (id) => {
         .then(json => {
             for (let key in json["tracks"]["items"]) {
                 let albumId = json["tracks"]["items"][key]["track"]["album"]["id"]
+
                 if (albums.includes(albumId)) {
                     continue;
                 }

@@ -13,21 +13,37 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
     const [includeLikedSongs, setIncludeLikedSongs] = useState(true)
     const [playlistLink, setPlaylistLink] = useState('')
     const [playlists, setPlaylists] = useState([])
-    const [albums, setAlbums] = useState([])
 
     const handlePlaylistSubmit = () => {
-        console.log('submitting playlist link: ' + playlistLink);
         let playlistId = spotifyIdFromLink(playlistLink);
         if (playlists.includes(playlistId)) {
             return
         }
+
+        let newPlaylists = [...playlists, playlistId]
         setPlaylists([...playlists, playlistId])
+        handlePlaylistChange(newPlaylists)
     }
 
-    const handlePlaylistRemove = (playlist) => {
-        let updatedPlaylists = playlists.filter((id) => id !== playlist)
-        setPlaylists(updatedPlaylists)
-        console.log('removing playlist: ' + playlist);
+    const handlePlaylistRemove = (playlistId) => {
+        let newPlaylists = playlists.filter((id) => id !== playlistId)
+        setPlaylists(newPlaylists)
+        console.log('playlists after filter: ' + newPlaylists);
+        handlePlaylistChange(newPlaylists)
+    }
+
+    const handlePlaylistChange = (newPlaylists) => {
+        if (newPlaylists.length === 0) {
+            onAlbumsChoose([])
+        }
+
+        for (let playlist in newPlaylists) {
+            getAlbumsFromPlaylistId(newPlaylists[playlist])
+            .then((newAlbums) => {
+                onAlbumsChoose(newAlbums)
+            })
+            .catch((err) => console.log(err))
+        }
     }
 
     const handleLikedSongsRemove = () => {
@@ -35,28 +51,10 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
         setIncludeLikedSongs(false)
     }
 
-    //set albums whenever playlists change
-    useEffect(() => {
-        if (playlists.length == 0) {
-            return;
-        }
-        getAlbumsFromPlaylistId(playlists[0])
-        .then((albums) => {
-            console.log('got albums from playlist: ' + playlists[0] + albums);
-            setAlbums(albums)
-        })
-        .catch((err) => console.log(err))
-    }, [playlists])
-
-    //feed up albums
-    useEffect(() => {
-        onAlbumsChoose(albums)
-    }, [albums])
-
     //feed up detail level
     useEffect(() => {
         onDetaiLevelChange(detail)
-    }, [detail])
+    }, [detail, onDetaiLevelChange])
 
     return (
         <div className="outer">
