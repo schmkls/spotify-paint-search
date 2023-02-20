@@ -65,7 +65,6 @@ const Album = ({uri}) => {
                                 />
                             <label className='hover-album-data'>{album?.name} - {album?.artists[0].name}</label>
                         </div>
-                        
                     : 
                         <img 
                             src={album?.images[0]?.url} 

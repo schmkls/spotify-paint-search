@@ -4,8 +4,10 @@ import Playlist from "../playlist/Playlist"
 import LikedSongs from "../playlist/LikedSongs"
 import './SearchOptions.css'
 
-
-const SearchOptions = ({onAlbumsChoose}) => {
+/**
+ * Component for choosing albums of search and detail level of search
+ */
+const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
 
     const [detail, setDetail] = useState(50)
     const [includeLikedSongs, setIncludeLikedSongs] = useState(true)
@@ -35,7 +37,11 @@ const SearchOptions = ({onAlbumsChoose}) => {
 
     useEffect(() => {
         onAlbumsChoose(albums)
-    }, [albums, detail])
+    }, [albums])
+
+    useEffect(() => {
+        onDetaiLevelChange(detail)
+    }, [detail])
 
     return (
         <div className="outer">

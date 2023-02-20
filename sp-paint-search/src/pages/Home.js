@@ -19,8 +19,14 @@ const featuredAlbums = [
 
 const Home = () => {
 
+    const [detailLevel, setDetailLevel] = useState(0.5)
     const [imageData, setImageData] = useState()
-    const [albums, setAlbums] = useState([])
+    const [searchAlbums, setSearchAlbums] = useState([])
+    const [resultAlbums, setResultAlbums] = useState(featuredAlbums)
+
+    const handleDetailLevelChange = (detailLevel) => {
+        setDetailLevel(detailLevel / 100)
+    }
 
     const handleImageDataChange = (imageData) => {
         setImageData(imageData)
@@ -28,14 +34,23 @@ const Home = () => {
 
     const handleAlbumsChange = (albums) => {
         console.log('searching with albums: ' + albums);
+        setSearchAlbums(albums)
     }
+
+    useEffect(() => {
+        //todo: match albums and set result albums
+    }, [searchAlbums, detailLevel, imageData])
+
+
 
     return (
         <div className='grid-container'>
             <TopBar/>
             <Canvas onImageDataChange={(imgData) => handleImageDataChange(imgData)}/>
-            <SearchOptions onAlbumsChoose={(albums) => handleAlbumsChange(albums)}/>
-            <AlbumGrid albums={featuredAlbums}/>
+            <SearchOptions 
+                onAlbumsChoose={(albums) => handleAlbumsChange(albums)}
+                onDetaiLevelChange={(detailLevel) => handleDetailLevelChange(detailLevel)}/>
+            <AlbumGrid albums={resultAlbums}/>
         </div>
     )
 }
