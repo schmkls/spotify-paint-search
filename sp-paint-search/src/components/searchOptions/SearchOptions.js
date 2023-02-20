@@ -35,7 +35,7 @@ const SearchOptions = ({onAlbumsChoose}) => {
 
     useEffect(() => {
         onAlbumsChoose(albums)
-    }, [albums])
+    }, [albums, detail])
 
     return (
         <div className="outer">

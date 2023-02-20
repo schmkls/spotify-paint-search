@@ -1,6 +1,7 @@
 .album {
     width: 260px;
     height: 290px;
+    position: relative;
 }
 
 .hover {
@@ -24,3 +25,12 @@
     bottom: 0;
     left: 0;
 }
+
+.cover-small {
+    position: relative;
+    left: 14%;
+}
+
+
+
+

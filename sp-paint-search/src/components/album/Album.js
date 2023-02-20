@@ -53,7 +53,7 @@ const Album = ({uri}) => {
             {
                 hover ? 
                         <div className='hover'>
-                            <img src={album?.images[0]?.url} alt="cover" width={260}/>
+                            <img src={album?.images[0]?.url} alt="cover" width={260} className="cover"/>
                             <img 
                                 src={'/icons/SPOTIFY_ICON.png'} 
                                 alt='spotify_icon' 
@@ -64,7 +64,7 @@ const Album = ({uri}) => {
                         </div>
                         
                     : 
-                        <img src={album?.images[0]?.url} alt="cover" width={180}/>
+                        <img src={album?.images[0]?.url} alt="cover" width={180} className="cover-small"/>
             }
         </div>
        
