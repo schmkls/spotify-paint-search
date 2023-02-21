@@ -21,6 +21,7 @@ const Album = ({uri}) => {
     };
 
     useEffect(() => {
+        console.log('ALBUM CHANGE! CALLING SPOTIFY API');
         fetch(`https://api.spotify.com/v1/albums/${id}`, {
             method: 'GET',
             headers: {
@@ -67,7 +68,6 @@ const Album = ({uri}) => {
                                 src={cover} 
                                 alt="cover" 
                                 width={260} 
-                                
                                 className="cover"/>
                             <img 
                                 src={'/icons/SPOTIFY_ICON.png'} 

@@ -28,11 +28,11 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
     const handlePlaylistRemove = (playlistId) => {
         let newPlaylists = playlists.filter((id) => id !== playlistId)
         setPlaylists(newPlaylists)
-        console.log('playlists after filter: ' + newPlaylists);
         handlePlaylistChange(newPlaylists)
     }
 
     const handlePlaylistChange = (newPlaylists) => {
+        console.log('PLAYLISTS CHANGE! CALLING SPOTIFY API');
         if (newPlaylists.length === 0) {
             onAlbumsChoose([])
         }

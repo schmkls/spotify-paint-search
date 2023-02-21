@@ -16,7 +16,7 @@ const Canvas = ({onImageDataChange}) => {
     //options for ReactCanvasPaint
     const [choosableColors, setChoosableColors] = useState([]);
     const [strokeWidth, setStrokeWidth] = useState(100);
-    const [draw, setDraw] = useState(undefined)
+    const [draw, setDraw] = useState(null)
 
     useEffect(() => {
         onImageDataChange(draw)
