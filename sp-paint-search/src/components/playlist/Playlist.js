@@ -7,7 +7,6 @@ const Playlist = ({id, onRemove}) => {
     const [name, setName] = useState('')
 
     useEffect(() => {
-        console.log('CALLING SPOTIFY API FROM PLAYLIST');
         fetch(`https://api.spotify.com/v1/playlists/${id}`, {
             method: 'GET',
             headers: {
@@ -27,7 +26,7 @@ const Playlist = ({id, onRemove}) => {
         <div className='playlist'>
             {
                 image === null ? <label>Searching for playlist...</label> : 
-                <img src={image} className='playlist-image'/>
+                <img src={image} className='playlist-image' alt='cover'/>
             }
             <label className='name-label'>  {name}</label>
             <button onClick={() => onRemove(id)} className='remove-button'>X</button>

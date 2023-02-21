@@ -20,7 +20,7 @@ const Canvas = ({onImageDataChange}) => {
 
     useEffect(() => {
         onImageDataChange(draw)
-    }, [draw])
+    }, [draw, onImageDataChange])
 
     const chooseCurrentColor = () => {
         setChoosableColors([...choosableColors, color]);

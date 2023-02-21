@@ -38,6 +38,31 @@ export const getAlbumsFromPlaylistId = async (id, includeLikedSongs) => {
             return res(albums)
         })        
     })
-        
 }
+
+
+export const getAlbumsWithImageData = async (albums) => {
+    return new Promise(async(res, rej) => {
+        let albumsAndImages = []
+        for (let i in albums) {
+            let id = albums[i]
+            await fetch(`https://api.spotify.com/v1/albums/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                }
+            })
+            .then(response => response.json())
+            .then(json => {
+                let image = json.images[0].url
+                albumsAndImages.push({id: id, image: image})
+            })
+            .catch((err) => {console.log(err)})      
+        }
+        return res(albumsAndImages)
+    })
+}
+
 

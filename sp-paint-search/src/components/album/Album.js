@@ -21,7 +21,6 @@ const Album = ({uri}) => {
     };
 
     useEffect(() => {
-        console.log('ALBUM CHANGE! CALLING SPOTIFY API');
         fetch(`https://api.spotify.com/v1/albums/${id}`, {
             method: 'GET',
             headers: {

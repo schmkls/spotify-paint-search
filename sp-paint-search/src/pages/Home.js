@@ -3,6 +3,7 @@ import TopBar from '../components/topbar/TopBar'
 import Canvas from '../components/canvas/Canvas'
 import AlbumGrid from '../components/albumGrid/AlbumGrid'
 import SearchOptions from '../components/searchOptions/SearchOptions'
+import { getAlbumsWithImageData } from '../func/commonSpotifyFuncs'
 import './Home.css'
 
 const featuredAlbums = [
@@ -33,8 +34,10 @@ const Home = () => {
     }
 
     const handleAlbumsChange = (albums) => {
-        console.log('searching with albums: ' + albums);
-        setSearchAlbums(albums)
+        getAlbumsWithImageData(albums)
+        .then((albumsAndImages) => {
+            setSearchAlbums(albumsAndImages)
+        })
     }
 
     useEffect(() => {
@@ -44,7 +47,7 @@ const Home = () => {
         console.log('imageData: ' + imageData);
         console.log('searchAlbums: ' + searchAlbums);
         console.log('detailLevel: ' + detailLevel);*/
-    }, [searchAlbums, imageData, detailLevel])
+    }, [searchAlbums, imageData, detailLevel, resultAlbums])
 
 
     return (
