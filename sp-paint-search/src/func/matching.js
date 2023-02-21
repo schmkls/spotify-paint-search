@@ -6,9 +6,18 @@ const ctx = canvas.getContext("2d");
  * albumsAndImages = [{id: 'id', image: 'imageUrl'}, ...] 
  */
 export const orderByImageMatch = (albumsAndImages, imageData, detailLevel) => {
-    console.log('drawed image data: ' + imageData + 'length: ' + imageData.data.length);
-    let exampleImage = imageDataFromUrl(albumsAndImages[0].image, 400)
-    console.log('example image: ' + exampleImage + 'length: ' + exampleImage.data.length);
+    //width and height of album image should match drawed image
+    const widthAndHeight = Math.sqrt(imageData.data.length / 4 )
+    let matches = []
+    
+    let matchVal
+    let albumImageData
+    for (let index in albumsAndImages) {
+        albumImageData = imageDataFromUrl(albumsAndImages[index].image, widthAndHeight)
+        matchVal = matchValue(imageData, albumImageData)
+        matches.push({album: albumsAndImages[index], match: matchVal})
+    }
+    return matches
 }
 
 
@@ -25,10 +34,10 @@ export const imageDataFromUrl = (imageUrl, widthAndHeight) => {
 export const matchValue = (imageDataOne, imageDataTwo) => {
     for (let i = 0; i < imageDataOne.data.length; i++) {
         if (imageDataOne.data[i] != imageDataTwo.data[i]) {
-            return false
+            return 32
         }
     }
 
-    return true
+    return 32
 }
 

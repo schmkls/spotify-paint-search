@@ -53,12 +53,13 @@ const Home = () => {
             return
         }
 
-        if (!searchAlbums || searchAlbums.length == 0) {
+        if (!searchAlbums || searchAlbums.length === 0) {
             console.log('no searchAlbums');
             return
         }
 
-        orderByImageMatch(searchAlbums, imageData, detailLevel)
+        let matches = orderByImageMatch(searchAlbums, imageData, detailLevel)
+        console.log('matches: ' + JSON.stringify(matches))
     }, [searchAlbums, imageData, detailLevel, resultAlbums])
 
 
