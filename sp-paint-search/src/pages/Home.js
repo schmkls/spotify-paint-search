@@ -4,6 +4,7 @@ import Canvas from '../components/canvas/Canvas'
 import AlbumGrid from '../components/albumGrid/AlbumGrid'
 import SearchOptions from '../components/searchOptions/SearchOptions'
 import { getAlbumsWithImageData } from '../func/commonSpotifyFuncs'
+import { orderByImageMatch } from '../func/matching'
 import './Home.css'
 
 const featuredAlbums = [
@@ -36,6 +37,7 @@ const Home = () => {
     const handleAlbumsChange = (albums) => {
         getAlbumsWithImageData(albums)
         .then((albumsAndImages) => {
+            console.log('setting albums and images to: ' + albumsAndImages);
             setSearchAlbums(albumsAndImages)
         })
     }
@@ -44,9 +46,19 @@ const Home = () => {
         console.log('----------------------------------------------------');
         /*
         console.log('getting new result albums with');
-        console.log('imageData: ' + imageData);
         console.log('searchAlbums: ' + searchAlbums);
         console.log('detailLevel: ' + detailLevel);*/
+        if (!imageData || !detailLevel) {
+            console.log('no imageData or detailLevel');
+            return
+        }
+
+        if (!searchAlbums || searchAlbums.length == 0) {
+            console.log('no searchAlbums');
+            return
+        }
+
+        orderByImageMatch(searchAlbums, imageData, detailLevel)
     }, [searchAlbums, imageData, detailLevel, resultAlbums])
 
 

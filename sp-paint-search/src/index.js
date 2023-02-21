@@ -4,11 +4,6 @@ import Home from './pages/Home';
 import UnAuthorized from './pages/UnAuthorized';
 import {imageDataFromUrl, matchValue} from './func/matching';
 
-let imgData = imageDataFromUrl('/icons/SPOTIFY_LOGO.png', 400)
-let imgData2 = imageDataFromUrl('/icons/SPOTIFY_LOGO.png', 400)
-let match = matchValue(imgData, imgData2)
-console.log('match: ' + match)
-
 const userUnAuthorized = () => {
     if (localStorage.getItem('access_token') == null) {
         return true

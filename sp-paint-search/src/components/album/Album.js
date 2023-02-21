@@ -74,7 +74,7 @@ const Album = ({uri}) => {
                                 className='hover-spotify-logo'
                                 onClick={() => openAlbum()}
                                 />
-                            <label className='hover-album-data'>{albumName} - {artist}</label>
+                            <label className='hover-album-data'>{artist} - {albumName}</label>
                         </div>
                     : 
                         <img 

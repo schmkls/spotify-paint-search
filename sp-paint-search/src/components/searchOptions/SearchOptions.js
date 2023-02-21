@@ -14,6 +14,7 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
     const [playlistLink, setPlaylistLink] = useState('')
     const [playlists, setPlaylists] = useState([])
 
+
     const handlePlaylistSubmit = () => {
         let playlistId = spotifyIdFromLink(playlistLink);
         if (playlists.includes(playlistId)) {
@@ -47,7 +48,6 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
     }
 
     const handleLikedSongsRemove = () => {
-        console.log('removing liked songs');
         setIncludeLikedSongs(false)
     }
 
@@ -55,6 +55,7 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
     useEffect(() => {
         onDetaiLevelChange(detail)
     }, [detail, onDetaiLevelChange])
+    
 
     return (
         <div className="outer">
