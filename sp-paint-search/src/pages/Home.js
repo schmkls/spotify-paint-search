@@ -42,12 +42,7 @@ const Home = () => {
         })
     }
 
-    useEffect(() => {
-        console.log('----------------------------------------------------');
-        /*
-        console.log('getting new result albums with');
-        console.log('searchAlbums: ' + searchAlbums);
-        console.log('detailLevel: ' + detailLevel);*/
+    const handleSearch = () => {
         if (!imageData || !detailLevel) {
             console.log('no imageData or detailLevel');
             return
@@ -59,8 +54,12 @@ const Home = () => {
         }
 
         let matches = orderByImageMatch(searchAlbums, imageData, detailLevel)
+        matches = matches.sort((a, b) => b.match - a.match)
+        matches = matches.slice(0, 9)
+        matches = matches.map((match) => match.album.id)
         console.log('matches: ' + JSON.stringify(matches))
-    }, [searchAlbums, imageData, detailLevel, resultAlbums])
+        setResultAlbums(matches)
+    }
 
 
     return (
@@ -69,7 +68,8 @@ const Home = () => {
             <Canvas onImageDataChange={(imgData) => handleImageDataChange(imgData)}/>
             <SearchOptions 
                 onAlbumsChoose={(albums) => handleAlbumsChange(albums)}
-                onDetaiLevelChange={(detailLevel) => handleDetailLevelChange(detailLevel)}/>
+                onDetailLevelChange={(detailLevel) => handleDetailLevelChange(detailLevel)}
+                onSearch={() => handleSearch()}/>
             <AlbumGrid albums={resultAlbums}/>
         </div>
     )

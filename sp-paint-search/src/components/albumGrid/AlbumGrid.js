@@ -6,25 +6,23 @@ import './AlbumGrid.css'
 
 
 const AlbumGrid = ({albums}) => {
-
-    const topAlbums = albums.slice(0, 9)
-
+    
     return (
         <div className="album-grid">
             <div className="row">
-                <Album uri={topAlbums[0]}/>
-                <Album uri={topAlbums[1]}/>
-                <Album uri={topAlbums[2]}/>
+                <Album uri={albums[0]}/>
+                <Album uri={albums[1 % albums.length]}/>
+                <Album uri={albums[2 % albums.length]}/>
             </div>
             <div className="row">
-                <Album uri={topAlbums[3]}/>
-                <Album uri={topAlbums[4]}/>
-                <Album uri={topAlbums[5]}/>
+                <Album uri={albums[3 % albums.length]}/>
+                <Album uri={albums[4 % albums.length]}/>
+                <Album uri={albums[5 % albums.length]}/>
             </div>
             <div className="row">
-                <Album uri={topAlbums[6]}/>
-                <Album uri={topAlbums[7]}/>
-                <Album uri={topAlbums[8]}/>
+                <Album uri={albums[6 % albums.length]}/>
+                <Album uri={albums[7 % albums.length]}/>
+                <Album uri={albums[8 % albums.length]}/>
             </div>
         </div>
     )

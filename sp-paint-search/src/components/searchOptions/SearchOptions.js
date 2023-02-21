@@ -7,7 +7,7 @@ import './SearchOptions.css'
 /**
  * Component for choosing albums of search and detail level of search
  */
-const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
+const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
 
     const [detail, setDetail] = useState(50)
     const [includeLikedSongs, setIncludeLikedSongs] = useState(true)
@@ -53,8 +53,8 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
 
     //feed up detail level
     useEffect(() => {
-        onDetaiLevelChange(detail)
-    }, [detail, onDetaiLevelChange])
+        onDetailLevelChange(detail)
+    }, [detail, onDetailLevelChange])
     
 
     return (
@@ -84,6 +84,7 @@ const SearchOptions = ({onAlbumsChoose, onDetaiLevelChange}) => {
                     <Playlist id={playlist} key={playlist} onRemove={(id) => handlePlaylistRemove(id)}/>
                 )
             }
+            <button onClick={() => onSearch()}>Search</button>
         </div>
     )
 }

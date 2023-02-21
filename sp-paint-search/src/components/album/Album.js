@@ -10,6 +10,7 @@ const Album = ({uri}) => {
     const [url, setUrl] = useState(null)
 
     const [hover, setHover] = useState(false)
+    
     const id = spotifyIdFromUri(uri)
 
     const handleMouseOver = () => {

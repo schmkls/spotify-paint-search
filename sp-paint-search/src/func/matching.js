@@ -31,13 +31,34 @@ export const imageDataFromUrl = (imageUrl, widthAndHeight) => {
 }
 
 
-export const matchValue = (imageDataOne, imageDataTwo) => {
+export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
+    let match = 0
     for (let i = 0; i < imageDataOne.data.length; i++) {
-        if (imageDataOne.data[i] != imageDataTwo.data[i]) {
-            return 32
-        }
+        if (imageDataOne.data[i] === imageDataTwo.data[i]) {
+            match++
+        }    
     }
 
-    return 32
+    return match
 }
 
+
+export const getPixelAt = (imageData, x, y) => {
+    const index = (x + y * imageData.width) * 4
+    return {
+        r: imageData.data[index + 0],
+        g: imageData.data[index + 1],
+        b: imageData.data[index + 2],
+        a: imageData.data[index + 3]
+    }
+}
+
+
+export const colorDistance = (colorOne, colorTwo) => {
+    
+}
+
+
+export const distance = (x1, y1, x2, y2, widthAndHeight) => {
+    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) / widthAndHeight
+}

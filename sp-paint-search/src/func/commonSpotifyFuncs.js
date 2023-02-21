@@ -1,4 +1,7 @@
 export const spotifyIdFromUri = (uri) => {
+    if (!uri.includes(':')) {
+        return uri //probably a id and not a uri
+    }
     return uri.substring(uri.lastIndexOf(':') + 1);
 }
 
