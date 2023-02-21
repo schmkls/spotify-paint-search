@@ -7,14 +7,14 @@ import './Home.css'
 
 const featuredAlbums = [
     "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON", 
-    "spotify:album:4EIy8sPngI3BDqykTtjGON"
+    "spotify:album:1G9NXS6bwV9JHeaCNETAFI", 
+    "spotify:album:26t2atAvmcNwZFJ0b3VHm9", 
+    "spotify:album:1JXnrNpiExB8uScA3duWOW", 
+    "spotify:album:1vWnB0hYmluskQuzxwo25a", 
+    "spotify:album:46YfeDd8YhuAcywdxZkRqf", 
+    "spotify:album:6uOn9t70gVO6YPU4M65h5g", 
+    "spotify:album:0b4R5wYw27gkjd2Mt4C8AP", 
+    "spotify:album:443fOM9A1XN8A0HImpYKVT"
 ]
 
 const Home = () => {

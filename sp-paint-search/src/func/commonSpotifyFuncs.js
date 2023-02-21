@@ -10,7 +10,7 @@ export const spotifyIdFromLink = (link) => {
     return link.substring(link.lastIndexOf('/') + 1, endIndex);
 }
 
-export const getAlbumsFromPlaylistId = async (id) => {
+export const getAlbumsFromPlaylistId = async (id, includeLikedSongs) => {
 
     console.log('getting albums from playlist: ' + id + '...');
 
