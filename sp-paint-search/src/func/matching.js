@@ -2,6 +2,9 @@ const canvas = document.createElement('canvas')
 const ctx = canvas.getContext("2d");
 
 
+
+
+
 /**
  * albumsAndImages = [{id: 'id', image: 'imageUrl'}, ...] 
  */
@@ -14,9 +17,10 @@ export const orderByImageMatch = (albumsAndImages, imageData, detailLevel) => {
     let albumImageData
     for (let index in albumsAndImages) {
         albumImageData = imageDataFromUrl(albumsAndImages[index].image, widthAndHeight)
-        matchVal = matchValue(imageData, albumImageData)
+        matchVal = matchValue(imageData, albumImageData, detailLevel, widthAndHeight)
         matches.push({album: albumsAndImages[index], match: matchVal})
     }
+    console.log('matches: ' + JSON.stringify(matches));
     return matches
 }
 
@@ -31,19 +35,23 @@ export const imageDataFromUrl = (imageUrl, widthAndHeight) => {
 }
 
 
-export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
+export const matchValue = (imageDataOne, imageDataTwo, detailLevel, widthAndHeight) => {
     let match = 0
-    for (let i = 0; i < imageDataOne.data.length; i++) {
-        if (imageDataOne.data[i] === imageDataTwo.data[i]) {
-            match++
-        }    
+    let pixelOne
+    let pixelTwo
+    
+    for (let y = 0; y <  widthAndHeight; y++) {
+        for (let x = 0; x < widthAndHeight; x++) {
+            pixelOne = getColorAt(imageDataOne, x, y)
+            pixelTwo = getColorAt(imageDataTwo, x, y)
+            match += colorDistance(pixelOne, pixelTwo)
+        }
     }
-
     return match
 }
 
 
-export const getPixelAt = (imageData, x, y) => {
+export const getColorAt = (imageData, x, y) => {
     const index = (x + y * imageData.width) * 4
     return {
         r: imageData.data[index + 0],
@@ -54,10 +62,30 @@ export const getPixelAt = (imageData, x, y) => {
 }
 
 
+//https://stackoverflow.com/questions/4754506/color-similarity-distance-in-rgba-color-space
 export const colorDistance = (colorOne, colorTwo) => {
-    
-}
+    let c1 = premultiply(colorOne)
+    let c2 = premultiply(colorTwo)
 
+    let aSum = c1.a + c2.a
+    let rDiff = c1.a - c1.a
+    let gDiff = c1.g - c2.g
+    let bDiff = c1.b - c2.b
+    
+    return Math.max(Math.pow(rDiff, 2), Math.pow(rDiff - aSum, 2)) + 
+        Math.max(Math.pow(gDiff, 2), Math.pow(gDiff - aSum, 2)) +
+        Math.max(Math.pow(bDiff, 2), Math.pow(bDiff - aSum, 2))
+}
+    
+
+export const premultiply = (color) => {
+    return {
+        r: color.r * color.a,
+        g: color.g * color.a,
+        b: color.b * color.a,
+        a: color.a
+    }
+}
 
 export const distance = (x1, y1, x2, y2, widthAndHeight) => {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) / widthAndHeight

@@ -54,8 +54,9 @@ const Home = () => {
         }
 
         let matches = orderByImageMatch(searchAlbums, imageData, detailLevel)
-        matches = matches.sort((a, b) => b.match - a.match)
-        matches = matches.slice(0, 9)
+        console.log('matches: ' + JSON.stringify(matches));
+        matches.sort((a, b) => a.match - b.match)
+        //matches.slice(0, 9)
         matches = matches.map((match) => match.album.id)
         console.log('matches: ' + JSON.stringify(matches))
         setResultAlbums(matches)
