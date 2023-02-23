@@ -31,13 +31,9 @@ export const imageDataFromURL = (url) => {
             var canvas = document.createElement("canvas");
             canvas.width = this.width;
             canvas.height = this.height;
-            console.log('width: ' + this.width);
-            console.log('height: ' + this.height);
-
             var ctx = canvas.getContext("2d");
             ctx.drawImage(this, 0, 0);
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const dataUrl = canvas.toDataURL();
             return res(imgData)
         };
 
@@ -47,13 +43,15 @@ export const imageDataFromURL = (url) => {
 }
 
 
-export const matchValue = (imageDataOne, imageDataTwo, detailLevel, widthAndHeight) => {
+export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
     let match = 0
     let pixelOne
     let pixelTwo
+    let width = Math.min(imageDataOne.width, imageDataTwo.width)
+    let height = Math.min(imageDataOne.height, imageDataTwo.height)
     
-    for (let y = 0; y <  widthAndHeight; y++) {
-        for (let x = 0; x < widthAndHeight; x++) {
+    for (let y = 0; y <  height; y++) {
+        for (let x = 0; x < width; x++) {
             pixelOne = getColorAt(imageDataOne, x, y)
             pixelTwo = getColorAt(imageDataTwo, x, y)
             match += colorDistance(pixelOne, pixelTwo)
@@ -79,14 +77,14 @@ export const colorDistance = (colorOne, colorTwo) => {
     let c1 = premultiply(colorOne)
     let c2 = premultiply(colorTwo)
 
-    let aSum = c1.a + c2.a
+    let aDiff = c1.a - c2.a
     let rDiff = c1.a - c1.a
     let gDiff = c1.g - c2.g
     let bDiff = c1.b - c2.b
     
-    return Math.max(Math.pow(rDiff, 2), Math.pow(rDiff - aSum, 2)) + 
-        Math.max(Math.pow(gDiff, 2), Math.pow(gDiff - aSum, 2)) +
-        Math.max(Math.pow(bDiff, 2), Math.pow(bDiff - aSum, 2))
+    return Math.max(Math.pow(rDiff, 2), Math.pow(rDiff - aDiff, 2)) + 
+        Math.max(Math.pow(gDiff, 2), Math.pow(gDiff - aDiff, 2)) +
+        Math.max(Math.pow(bDiff, 2), Math.pow(bDiff - aDiff, 2))
 }
     
 
