@@ -4,20 +4,21 @@
 /**
  * albumsAndImages = [{id: 'id', image: 'imageUrl'}, ...] 
  */
-export const orderByImageMatch = (albumsAndImages, imageData, detailLevel) => {
-    //width and height of album image should match drawed image
-    const widthAndHeight = Math.sqrt(imageData.data.length / 4 )
-    let matches = []
+export const orderByImageMatch = async(albumsAndImages, imageData, detailLevel) => {
+    return new Promise(async(res, rej) => {
+        let matches = []
     
-    let matchVal
-    let albumImageData
-    for (let index in albumsAndImages) {
-        albumImageData = imageDataFromURL(albumsAndImages[index].image, widthAndHeight)
-        matchVal = matchValue(imageData, albumImageData, detailLevel, widthAndHeight)
-        matches.push({album: albumsAndImages[index], match: matchVal})
-    }
-    console.log('matches: ' + JSON.stringify(matches));
-    return matches
+        let matchVal
+        let albumImageData
+        for (let index in albumsAndImages) {
+            albumImageData = await imageDataFromURL(albumsAndImages[index].image)
+            matchVal = matchValue(imageData, albumImageData, detailLevel)
+            matches.push({album: albumsAndImages[index], match: matchVal})
+        }
+        console.log('matches: ' + JSON.stringify(matches));
+        return res(matches)
+    })
+    
 }
 
 
@@ -77,23 +78,20 @@ export const colorDistance = (colorOne, colorTwo) => {
     let c1 = premultiply(colorOne)
     let c2 = premultiply(colorTwo)
 
-    let aDiff = c1.a - c2.a
-    let rDiff = c1.a - c1.a
+    let rDiff = c1.r - c2.r
     let gDiff = c1.g - c2.g
     let bDiff = c1.b - c2.b
     
-    return Math.max(Math.pow(rDiff, 2), Math.pow(rDiff - aDiff, 2)) + 
-        Math.max(Math.pow(gDiff, 2), Math.pow(gDiff - aDiff, 2)) +
-        Math.max(Math.pow(bDiff, 2), Math.pow(bDiff - aDiff, 2))
+    return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff)
 }
     
 
 export const premultiply = (color) => {
     return {
-        r: color.r * color.a,
-        g: color.g * color.a,
-        b: color.b * color.a,
-        a: color.a
+        r: color.r / 255 * color.a / 255,
+        g: color.g / 255 * color.a / 255,
+        b: color.b / 255 * color.a / 255,
+        a: color.a / 255
     }
 }
 

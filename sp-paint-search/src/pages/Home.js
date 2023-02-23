@@ -53,13 +53,15 @@ const Home = () => {
             return
         }
 
-        let matches = orderByImageMatch(searchAlbums, imageData, detailLevel)
-        console.log('matches: ' + JSON.stringify(matches));
-        matches.sort((a, b) => a.match - b.match)
-        //matches.slice(0, 9)
-        matches = matches.map((match) => match.album.id)
-        console.log('matches: ' + JSON.stringify(matches))
-        setResultAlbums(matches)
+        orderByImageMatch(searchAlbums, imageData, detailLevel)
+        .then((matches) => {
+            console.log('matches: ' + JSON.stringify(matches));
+            matches.sort((a, b) => a.match - b.match)
+            matches.slice(0, 9)
+            matches = matches.map((match) => match.album.id)
+            setResultAlbums(matches)
+        })
+       
     }
 
 
