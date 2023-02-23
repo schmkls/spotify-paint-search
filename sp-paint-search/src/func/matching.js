@@ -1,7 +1,3 @@
-const canvas = document.createElement('canvas')
-const ctx = canvas.getContext("2d");
-
-
 
 
 
@@ -16,7 +12,7 @@ export const orderByImageMatch = (albumsAndImages, imageData, detailLevel) => {
     let matchVal
     let albumImageData
     for (let index in albumsAndImages) {
-        albumImageData = imageDataFromUrl(albumsAndImages[index].image, widthAndHeight)
+        albumImageData = imageDataFromURL(albumsAndImages[index].image, widthAndHeight)
         matchVal = matchValue(imageData, albumImageData, detailLevel, widthAndHeight)
         matches.push({album: albumsAndImages[index], match: matchVal})
     }
@@ -25,13 +21,29 @@ export const orderByImageMatch = (albumsAndImages, imageData, detailLevel) => {
 }
 
 
-export const imageDataFromUrl = (imageUrl, widthAndHeight) => {
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.src = imageUrl;   
-    ctx.drawImage(img, 0, 0)
-    const imageData = ctx.getImageData(0, 0, widthAndHeight, widthAndHeight)
-    return imageData
+export const imageDataFromURL = (url) => {
+    return new Promise((res, rej) => {
+        var img = new Image();
+
+        img.setAttribute('crossOrigin', 'anonymous');
+
+        img.onload = function () {
+            var canvas = document.createElement("canvas");
+            canvas.width = this.width;
+            canvas.height = this.height;
+            console.log('width: ' + this.width);
+            console.log('height: ' + this.height);
+
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(this, 0, 0);
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL();
+            return res(imgData)
+        };
+
+        img.src = url;
+    })
+    
 }
 
 
