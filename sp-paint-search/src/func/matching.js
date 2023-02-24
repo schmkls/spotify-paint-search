@@ -6,12 +6,18 @@
  */
 export const orderByImageMatch = async(albumsAndImages, imageData, detailLevel) => {
     return new Promise(async(res, rej) => {
-        let matches = []
-    
+        let matches = []    
+        let widthAndHeight = imageData.width
+        
         let matchVal
         let albumImageData
         for (let index in albumsAndImages) {
-            albumImageData = await imageDataFromURL(albumsAndImages[index].image)
+            console.log('comparing ' + JSON.stringify(albumsAndImages[index]))
+            albumImageData = await imageDataFromURL(albumsAndImages[index].image, widthAndHeight)
+            if (albumImageData.data.length !== imageData.data.length) {
+                return rej('ImageDatas length mismatch')
+            }
+
             matchVal = matchValue(imageData, albumImageData, detailLevel)
             matches.push({album: albumsAndImages[index], match: matchVal})
         }
@@ -22,7 +28,7 @@ export const orderByImageMatch = async(albumsAndImages, imageData, detailLevel) 
 }
 
 
-export const imageDataFromURL = (url) => {
+export const imageDataFromURL = (url, widthAndHeight) => {
     return new Promise((res, rej) => {
         var img = new Image();
 
@@ -30,8 +36,8 @@ export const imageDataFromURL = (url) => {
 
         img.onload = function () {
             var canvas = document.createElement("canvas");
-            canvas.width = this.width;
-            canvas.height = this.height;
+            canvas.width = widthAndHeight
+            canvas.height = widthAndHeight
             var ctx = canvas.getContext("2d");
             ctx.drawImage(this, 0, 0);
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -39,12 +45,24 @@ export const imageDataFromURL = (url) => {
         };
 
         img.src = url;
-    })
-    
+    }) 
 }
 
 
+export const printImageData = (imageData) => {
+    console.log('width: ' + imageData.width);
+    console.log('height: ' + imageData.height);
+    console.log('data: ' + imageData.data);
+    console.log('');
+}
+
 export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
+    console.log('comparing images');
+    console.log('drawed data: ');
+    printImageData(imageDataOne)
+    console.log('album data:');
+    printImageData(imageDataTwo)
+
     let match = 0
     let pixelOne
     let pixelTwo
@@ -58,7 +76,8 @@ export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
             match += colorDistance(pixelOne, pixelTwo)
         }
     }
-    return match
+
+    return match / (width * height)
 }
 
 

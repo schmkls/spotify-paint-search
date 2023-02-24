@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import TopBar from '../components/topbar/TopBar'
 import Canvas from '../components/canvas/Canvas'
 import AlbumGrid from '../components/albumGrid/AlbumGrid'
@@ -21,7 +21,7 @@ const featuredAlbums = [
 
 const Home = () => {
 
-    const [detailLevel, setDetailLevel] = useState(0.5)
+    const [detailLevel, setDetailLevel] = useState()
     const [imageData, setImageData] = useState()
     const [searchAlbums, setSearchAlbums] = useState([])
     const [resultAlbums, setResultAlbums] = useState(featuredAlbums)
@@ -43,8 +43,8 @@ const Home = () => {
     }
 
     const handleSearch = () => {
-        if (!imageData || !detailLevel) {
-            console.log('no imageData or detailLevel');
+        if (!imageData) {
+            console.log('no imageData');
             return
         }
 

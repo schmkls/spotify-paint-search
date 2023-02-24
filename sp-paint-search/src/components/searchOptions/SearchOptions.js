@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react"
 import { spotifyIdFromLink, getAlbumsFromPlaylistId} from "../../func/commonSpotifyFuncs"
 import Playlist from "../playlist/Playlist"
-import LikedSongs from "../playlist/LikedSongs"
 import './SearchOptions.css'
 
 /**
  * Component for choosing albums of search and detail level of search
  */
 const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
-
-    const [detail, setDetail] = useState(50)
-    const [includeLikedSongs, setIncludeLikedSongs] = useState(true)
+    const initialDetailLevel = 100
+    const [detail, setDetail] = useState(initialDetailLevel)
     const [playlistLink, setPlaylistLink] = useState('')
     const [playlists, setPlaylists] = useState([])
+    const [searchReady, setSearchReady] = useState(false)
 
 
     const handlePlaylistSubmit = () => {
@@ -32,8 +31,9 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
         handlePlaylistChange(newPlaylists)
     }
 
+
     const handlePlaylistChange = (newPlaylists) => {
-        console.log('PLAYLISTS CHANGE! CALLING SPOTIFY API');
+        setSearchReady(false)
         if (newPlaylists.length === 0) {
             onAlbumsChoose([])
         }
@@ -42,18 +42,20 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
             getAlbumsFromPlaylistId(newPlaylists[playlist])
             .then((newAlbums) => {
                 onAlbumsChoose(newAlbums)
+                setSearchReady(true)
             })
             .catch((err) => console.log(err))
         }
     }
 
-    const handleLikedSongsRemove = () => {
-        setIncludeLikedSongs(false)
-    }
 
     //feed up detail level
     useEffect(() => {
-        onDetailLevelChange(detail)
+        if (!detail) {
+            onDetailLevelChange(initialDetailLevel)
+        } else {
+            onDetailLevelChange(detail)
+        }
     }, [detail, onDetailLevelChange])
     
 
@@ -77,14 +79,17 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
             <input type="text" id="playlist" name="playlist" onChange={(e) => setPlaylistLink(e.target.value)}/>
             <button onClick={() => handlePlaylistSubmit()}>Add</button>
             {
-                includeLikedSongs ? <LikedSongs onRemove={() => handleLikedSongsRemove()}/> : <></>
-            }
-            {
                 playlists.map((playlist) => 
                     <Playlist id={playlist} key={playlist} onRemove={(id) => handlePlaylistRemove(id)}/>
                 )
             }
-            <button onClick={() => onSearch()}>Search</button>
+            {
+                searchReady ? 
+                    <button onClick={() => onSearch()}> Search </button> 
+                : 
+                    <></>
+            }
+            
         </div>
     )
 }

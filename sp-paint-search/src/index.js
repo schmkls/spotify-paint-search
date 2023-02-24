@@ -23,8 +23,6 @@ const userUnAuthorized = () => {
 
 const testing = false
 
-
-
 const App = () => {
     if (userUnAuthorized()) {
         return <UnAuthorized/>
@@ -39,7 +37,6 @@ const App = () => {
         )
     }
     
-
     return (
         <Home/>
     )

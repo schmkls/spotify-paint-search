@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaintBrush } from '@fortawesome/free-solid-svg-icons'
 import './Canvas.css'
 
+//neccessary because initial white/non color interpreted as black
+const initialDrawData = new ImageData(400, 400)
+initialDrawData.data.fill(255)
 
 
 
@@ -19,8 +22,13 @@ const Canvas = ({onImageDataChange}) => {
     const [draw, setDraw] = useState(null)
 
     useEffect(() => {
-        onImageDataChange(draw)
+        if (!draw) {
+            onImageDataChange(initialDrawData)
+        } else {
+            onImageDataChange(draw)
+        }
     }, [draw, onImageDataChange])
+
 
     const chooseCurrentColor = () => {
         setChoosableColors([...choosableColors, color]);
@@ -33,6 +41,7 @@ const Canvas = ({onImageDataChange}) => {
                     onDraw={setDraw}
                     colors={choosableColors}
                     strokeWidth={strokeWidth}
+                    data={initialDrawData}
                 />
                 <button 
                     style={{color: {color}}} 

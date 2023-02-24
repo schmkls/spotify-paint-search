@@ -1,14 +1,11 @@
 //own simple testing module
 
-import {imageDataFromURL, matchValue, getColorAt, colorDistance} from './func/matching';
+import {colorDistance} from './func/matching';
 
 const colorDistanceZeroForEqualColors = () => {
     const colorOne = { r: 255, g: 255, b: 255, a: 255}
-
     const colorTwo = { r: 255, g: 255, b: 255, a: 255}
-
     const distance = colorDistance(colorOne, colorTwo)
-
     return distance === 0
 }
 
@@ -16,7 +13,6 @@ const colorDistanceZeroForEqualColors = () => {
 const positiveDistanceIfAlphaDiffers = () => {
     const colorOne = { r: 32, g: 36, b: 22, a: 32}
     const colorTwo = { r: 32, g: 36, b: 22, a: 69}
-
     const distance = colorDistance(colorOne, colorTwo)
     return distance > 0
 }
@@ -52,24 +48,13 @@ const blackWhiteDistance = () => {
 }
 
 
-const matchingTest = async() => {
-    //aproximately half black, quarter black, etc
-    const black = await imageDataFromURL('/400x400black.png')
-    const halfBlack = await imageDataFromURL('/400x400blackAndWhite.png')
-    const quarterBlack = await imageDataFromURL('/400x400quarterBlack.png')
-
-    const halfMatch = matchValue(black, halfBlack)
-    console.log('halfMatch: ' + halfMatch);
-}
-
-
 const testFuncs = [
     colorDistanceZeroForEqualColors, 
     positiveDistanceIfAlphaDiffers,
     expectedColorDistancesByEye,
-    blackWhiteDistance,
-    matchingTest
+    blackWhiteDistance, 
 ]
+
 
 export const runTests = async() => {
    for (let i = 0; i < testFuncs.length; i++) {
