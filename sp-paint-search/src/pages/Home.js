@@ -25,6 +25,7 @@ const Home = () => {
     const [imageData, setImageData] = useState()
     const [searchAlbums, setSearchAlbums] = useState([])
     const [resultAlbums, setResultAlbums] = useState(featuredAlbums)
+    const [searchReady, setSearchReady] = useState(false)
 
     const handleDetailLevelChange = (detailLevel) => {
         setDetailLevel(detailLevel / 100)
@@ -35,10 +36,12 @@ const Home = () => {
     }
 
     const handleAlbumsChange = (albums) => {
+        setSearchReady(false)
         getAlbumsWithImageData(albums)
         .then((albumsAndImages) => {
             console.log('setting albums and images to: ' + albumsAndImages);
             setSearchAlbums(albumsAndImages)
+            setSearchReady(true)
         })
     }
 
@@ -69,10 +72,19 @@ const Home = () => {
         <div className='grid-container'>
             <TopBar/>
             <Canvas onImageDataChange={(imgData) => handleImageDataChange(imgData)}/>
-            <SearchOptions 
-                onAlbumsChoose={(albums) => handleAlbumsChange(albums)}
-                onDetailLevelChange={(detailLevel) => handleDetailLevelChange(detailLevel)}
-                onSearch={() => handleSearch()}/>
+            <div className='search-panel'>
+                <SearchOptions 
+                    onAlbumsChoose={(albums) => handleAlbumsChange(albums)}
+                    onDetailLevelChange={(detailLevel) => handleDetailLevelChange(detailLevel)}
+                    onSearch={() => handleSearch()}/>
+                {
+                    searchReady ? 
+                        <button onClick={() => handleSearch()}> Search </button> 
+                    : 
+                        <></>
+                }
+            </div>
+            
             <AlbumGrid albums={resultAlbums}/>
         </div>
     )

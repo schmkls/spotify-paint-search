@@ -6,12 +6,11 @@ import './SearchOptions.css'
 /**
  * Component for choosing albums of search and detail level of search
  */
-const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
+const SearchOptions = ({onAlbumsChoose, onDetailLevelChange}) => {
     const initialDetailLevel = 100
     const [detail, setDetail] = useState(initialDetailLevel)
     const [playlistLink, setPlaylistLink] = useState('')
     const [playlists, setPlaylists] = useState([])
-    const [searchReady, setSearchReady] = useState(false)
 
 
     const handlePlaylistSubmit = () => {
@@ -33,7 +32,6 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
 
 
     const handlePlaylistChange = (newPlaylists) => {
-        setSearchReady(false)
         if (newPlaylists.length === 0) {
             onAlbumsChoose([])
         }
@@ -42,7 +40,6 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
             getAlbumsFromPlaylistId(newPlaylists[playlist])
             .then((newAlbums) => {
                 onAlbumsChoose(newAlbums)
-                setSearchReady(true)
             })
             .catch((err) => console.log(err))
         }
@@ -83,13 +80,6 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange, onSearch}) => {
                     <Playlist id={playlist} key={playlist} onRemove={(id) => handlePlaylistRemove(id)}/>
                 )
             }
-            {
-                searchReady ? 
-                    <button onClick={() => onSearch()}> Search </button> 
-                : 
-                    <></>
-            }
-            
         </div>
     )
 }

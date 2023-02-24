@@ -16,7 +16,7 @@ const userUnAuthorized = () => {
     if (localStorage.getItem('access_token') == null) {
         return true
     }
-
+    
     return false
 }
 
@@ -29,9 +29,7 @@ const App = () => {
     }
 
     if (testing) {
-        
         runTests()
-
         return (
             <h2>Testing mode</h2>
         )

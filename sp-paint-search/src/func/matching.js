@@ -12,7 +12,6 @@ export const orderByImageMatch = async(albumsAndImages, imageData, detailLevel) 
         let matchVal
         let albumImageData
         for (let index in albumsAndImages) {
-            console.log('comparing ' + JSON.stringify(albumsAndImages[index]))
             albumImageData = await imageDataFromURL(albumsAndImages[index].image, widthAndHeight)
             if (albumImageData.data.length !== imageData.data.length) {
                 return rej('ImageDatas length mismatch')
@@ -21,7 +20,6 @@ export const orderByImageMatch = async(albumsAndImages, imageData, detailLevel) 
             matchVal = matchValue(imageData, albumImageData, detailLevel)
             matches.push({album: albumsAndImages[index], match: matchVal})
         }
-        console.log('matches: ' + JSON.stringify(matches));
         return res(matches)
     })
     
@@ -53,22 +51,44 @@ export const printImageData = (imageData) => {
     console.log('width: ' + imageData.width);
     console.log('height: ' + imageData.height);
     console.log('data: ' + imageData.data);
-    console.log('');
+}
+
+export const averageColor = (imageData) => {
+    let pixel
+    let r = 0
+    let g = 0
+    let b = 0
+    let a = 0
+    let width = imageData.width
+    let height = imageData.height
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            pixel = getColorAt(imageData, x, y)
+            r += pixel.r
+            g += pixel.g
+            b += pixel.b
+            a += pixel.a
+        }
+    }
+
+    return {
+        r: r / (width * height),
+        g: g / (width * height),
+        b: b / (width * height),
+        a: a / (width * height)
+    }
 }
 
 export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
-    console.log('comparing images');
-    console.log('drawed data: ');
-    printImageData(imageDataOne)
-    console.log('album data:');
-    printImageData(imageDataTwo)
-
     let match = 0
     let pixelOne
     let pixelTwo
     let width = Math.min(imageDataOne.width, imageDataTwo.width)
     let height = Math.min(imageDataOne.height, imageDataTwo.height)
-    
+    let imgOneAverageColor = averageColor(imageDataOne)
+    let imgTwoAverageColor = averageColor(imageDataTwo)
+
     for (let y = 0; y <  height; y++) {
         for (let x = 0; x < width; x++) {
             pixelOne = getColorAt(imageDataOne, x, y)
