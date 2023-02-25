@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import TopBar from '../components/topbar/TopBar'
 import Canvas from '../components/canvas/Canvas'
 import AlbumGrid from '../components/albumGrid/AlbumGrid'
@@ -58,13 +58,12 @@ const Home = () => {
 
         orderByImageMatch(searchAlbums, imageData, detailLevel)
         .then((matches) => {
-            console.log('matches: ' + JSON.stringify(matches));
-            matches.sort((a, b) => a.match - b.match)
-            matches.slice(0, 9)
+            matches.sort((a, b) => b.match.matchVal - a.match.matchVal)
+            matches = matches.slice(0, 9)
+            console.log('matches: ' + JSON.stringify(matches, null, 4));
             matches = matches.map((match) => match.album.id)
             setResultAlbums(matches)
         })
-       
     }
 
 

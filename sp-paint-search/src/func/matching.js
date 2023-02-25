@@ -81,23 +81,29 @@ export const averageColor = (imageData) => {
 }
 
 export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
-    let match = 0
-    let pixelOne
-    let pixelTwo
+    let matchVal = 0
+    let uniqueness = 0
+    let imgOnePixel
+    let imgTwoPixel
     let width = Math.min(imageDataOne.width, imageDataTwo.width)
     let height = Math.min(imageDataOne.height, imageDataTwo.height)
+    let len = width * height
     let imgOneAverageColor = averageColor(imageDataOne)
     let imgTwoAverageColor = averageColor(imageDataTwo)
+    let max = Math.sqrt(3)
 
     for (let y = 0; y <  height; y++) {
         for (let x = 0; x < width; x++) {
-            pixelOne = getColorAt(imageDataOne, x, y)
-            pixelTwo = getColorAt(imageDataTwo, x, y)
-            match += colorDistance(pixelOne, pixelTwo)
+            imgOnePixel = getColorAt(imageDataOne, x, y)
+            imgTwoPixel = getColorAt(imageDataTwo, x, y)
+            matchVal += colorMatch(imgOnePixel, imgTwoPixel)
+            uniqueness += colorMatch(imgOnePixel, imgTwoPixel) * colorMatch(imgOnePixel, imgOneAverageColor)
         }
     }
-
-    return match / (width * height)
+    return {
+        matchVal : matchVal / len, 
+        uniqueness: uniqueness / len,
+    }
 }
 
 
@@ -112,8 +118,10 @@ export const getColorAt = (imageData, x, y) => {
 }
 
 
+
+
 //https://stackoverflow.com/questions/4754506/color-similarity-distance-in-rgba-color-space
-export const colorDistance = (colorOne, colorTwo) => {
+export const colorMatch = (colorOne, colorTwo) => {
     let c1 = premultiply(colorOne)
     let c2 = premultiply(colorTwo)
 
@@ -121,7 +129,7 @@ export const colorDistance = (colorOne, colorTwo) => {
     let gDiff = c1.g - c2.g
     let bDiff = c1.b - c2.b
     
-    return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff)
+    return 1 - (Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff) / Math.sqrt(3))
 }
     
 
