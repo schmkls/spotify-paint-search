@@ -58,7 +58,7 @@ const Home = () => {
 
         orderByImageMatch(searchAlbums, imageData, detailLevel)
         .then((matches) => {
-            matches.sort((a, b) => b.match.matchVal - a.match.matchVal)
+            matches.sort((a, b) => a.match - b.match)
             matches = matches.slice(0, 9)
             console.log('matches: ' + JSON.stringify(matches, null, 4));
             matches = matches.map((match) => match.album.id)
