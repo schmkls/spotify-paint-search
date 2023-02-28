@@ -1,37 +1,41 @@
 //own simple testing module
 
-import {colorDistance, imageDataFromURL, averageColor} from './func/matching';
+import {colorDistance, imageDataFromURL, getColorAt} from './func/matching';
 
 
-const blackImageAverageIsBlack = async() => {
+const getColorAtTest = async() => {
     const black = await imageDataFromURL('https://upload.wikimedia.org/wikipedia/commons/7/71/Black.png?20110927180820', 400)
-    const blackAverage = averageColor(black)
-    if (blackAverage.r !== 0 && blackAverage.g !== 0 && blackAverage.b !== 0 && blackAverage.a !== 255) return false
-    return true
-}
-
-
-const cowAverageColor = async() => {
-    let img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_female_black_white.jpg/1280px-Cow_female_black_white.jpg'
-    const cow = await imageDataFromURL(img, 200)
-    const cowAverage = averageColor(cow)
-    console.log('cow in field ' + img +  ' average color: ', cowAverage)
-    return true
-}
-
-const jungleAverageColor = async() => {
-    let img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Jungle.jpg/1280px-Jungle.jpg'
-    const jungle = await imageDataFromURL(img, 200)
-    const jungleAverage = averageColor(jungle)
-    console.log('jungle ' + img +  ' average color: ', jungleAverage)
+    const colorInMiddle = getColorAt(black, 200, 200, 1)
+    const colorInTopLeft = getColorAt(black, 0, 0, 1)
+    const colorInTopRight = getColorAt(black, 399, 0, 1)
+    const colorInBottomLeft = getColorAt(black, 0, 399, 1)
+    const colorInBottomRight = getColorAt(black, 399, 399, 1)
+    if (colorInMiddle.r !== 0 && colorInMiddle.g !== 0 && colorInMiddle.b !== 0) {
+        console.log('colorInMiddle: ' + JSON.stringify(colorInMiddle))
+        return false
+    }
+    if (colorInTopLeft.r !== 0 && colorInTopLeft.g !== 0 && colorInTopLeft.b !== 0) {
+        console.log('colorInTopLeft: ' + JSON.stringify(colorInTopLeft))
+        return false
+    }
+    if (colorInTopRight.r !== 0 && colorInTopRight.g !== 0 && colorInTopRight.b !== 0) {
+        console.log('colorInTopRight: ' + JSON.stringify(colorInTopRight))
+        return false
+    }
+    if (colorInBottomLeft.r !== 0 && colorInBottomLeft.g !== 0 && colorInBottomLeft.b !== 0) {
+        console.log('colorInBottomLeft: ' + JSON.stringify(colorInBottomLeft))
+        return false
+    }
+    if (colorInBottomRight.r !== 0 && colorInBottomRight.g !== 0 && colorInBottomRight.b !== 0) {
+        console.log('colorInBottomRight: ' + JSON.stringify(colorInBottomRight))
+        return false
+    }
     return true
 }
 
 
 const testFuncs = [
-    blackImageAverageIsBlack, 
-    cowAverageColor, 
-    jungleAverageColor
+    getColorAtTest
 ]
 
 

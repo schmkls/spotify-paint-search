@@ -64,6 +64,7 @@ const Home = () => {
             matches = matches.map((match) => match.album.id)
             setResultAlbums(matches)
         })
+        .catch((err) => console.log(err))
     }
 
 
@@ -83,7 +84,6 @@ const Home = () => {
                         <></>
                 }
             </div>
-            
             <AlbumGrid albums={resultAlbums}/>
         </div>
     )

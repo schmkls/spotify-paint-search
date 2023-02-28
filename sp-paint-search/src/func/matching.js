@@ -17,7 +17,7 @@ export const orderByImageMatch = async(albumsAndImages, imageData, detailLevel) 
                 return rej('ImageDatas length mismatch')
             }
 
-            matchVal = matchValue(imageData, albumImageData, detailLevel)
+            matchVal = getSimilarity(imageData, albumImageData, detailLevel)
             matches.push({album: albumsAndImages[index], match: matchVal})
         }
         return res(matches)
@@ -47,66 +47,74 @@ export const imageDataFromURL = (url, widthAndHeight) => {
 }
 
 
-export const printImageData = (imageData) => {
-    console.log('width: ' + imageData.width);
-    console.log('height: ' + imageData.height);
-    console.log('data: ' + imageData.data);
+
+/**
+ * Returns a value representing similiarity between drawn image and 
+ * image to match against. 
+ * 
+ * @param {*} drawnImgData drawn image data
+ * @param {*} imgData image data to match against
+ * @param {*} detailLevel 0-1, 0 being the most detailed
+ * @returns 
+ */
+export const getSimilarity = (drawnImgData, imgData, detailLevel) => {
+    let similarity = 0
+    let width = Math.min(drawnImgData.width, imgData.width)
+    let height = Math.min(drawnImgData.height, imgData.height)
+    let radius = Math.min(width, height) * detailLevel
+    console.log('detailLevel: ' + detailLevel)
+    console.log('radius: ' + radius)
+
+    let avgColor
+    let drawedColor
+    
+    for (let y = radius / 2; y < height; y += radius) {
+        for (let x = radius / 2; x < width; x += radius) {
+            avgColor = getColorAt(imgData, x, y, radius)
+            drawedColor = getColorAt(drawnImgData, x, y, radius)
+            similarity += colorMatch(avgColor, drawedColor)
+            console.log('average color at ' + x + ', ' + y + ': ' + JSON.stringify(avgColor))
+        }
+    }
+    return similarity
 }
 
-export const averageColor = (imageData) => {
+export const getColorAt = (imgData, x, y, radius) => {
     let pixel
+    let count = 0
     let r = 0
     let g = 0
     let b = 0
-    let a = 0
-    let width = imageData.width
-    let height = imageData.height
+    radius = Math.max(1, radius)
+    console.log('radius: ' + radius + '');
 
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            pixel = getColorAt(imageData, x, y)
+    for (let yPos = Math.max(0, y - radius); yPos < Math.min(imgData.height, y + radius); yPos++) {
+        for (let xPos = Math.max(0, x - radius); xPos < Math.min(imgData.width, x + radius); xPos++) {
+            console.log('xPos: ' + xPos + ', yPos: ' + yPos + '');
+            pixel = getPixelColor(imgData, xPos, yPos)
             r += pixel.r
             g += pixel.g
             b += pixel.b
-            a += pixel.a
+            count++
         }
     }
+
+    console.log('count: ' + count + ', r: ' + r + ', g: ' + g + ', b: ' + b + '');
 
     return {
-        r: r / (width * height),
-        g: g / (width * height),
-        b: b / (width * height),
-        a: a / (width * height)
+        r: r / count,
+        g: g / count,
+        b: b / count,
     }
+
 }
 
-export const matchValue = (imageDataOne, imageDataTwo, detailLevel) => {
-    let matchVal = 0
-    let uniqueness = 0
-    let imgOnePixel
-    let imgTwoPixel
-    let width = Math.min(imageDataOne.width, imageDataTwo.width)
-    let height = Math.min(imageDataOne.height, imageDataTwo.height)
-    let len = width * height
-
-    for (let y = 0; y <  height; y++) {
-        for (let x = 0; x < width; x++) {
-            imgOnePixel = getColorAt(imageDataOne, x, y)
-            imgTwoPixel = getColorAt(imageDataTwo, x, y)
-            matchVal += colorMatch(imgOnePixel, imgTwoPixel)
-        }
-    }
-    return matchVal
-}
-
-
-export const getColorAt = (imageData, x, y) => {
+export const getPixelColor = (imageData, x, y) => {
     const index = (x + y * imageData.width) * 4
     return {
         r: imageData.data[index + 0],
         g: imageData.data[index + 1],
         b: imageData.data[index + 2],
-        a: imageData.data[index + 3]
     }
 }
 
@@ -115,7 +123,6 @@ export const getColorAt = (imageData, x, y) => {
 
 //https://stackoverflow.com/questions/4754506/color-similarity-distance-in-rgba-color-space
 export const colorMatch = (c1, c2) => {
-
     let rDiff = Math.pow(c1.r - c2.r, 2)
     let gDiff = Math.pow(c1.g - c2.g, 2)
     let bDiff = Math.pow(c1.b - c2.b, 2)
@@ -126,16 +133,7 @@ export const colorMatch = (c1, c2) => {
     
     return diff
 }
-    
 
-export const premultiply = (color) => {
-    return {
-        r: color.r / 255 * color.a / 255,
-        g: color.g / 255 * color.a / 255,
-        b: color.b / 255 * color.a / 255,
-        a: color.a / 255
-    }
-}
 
 export const distance = (x1, y1, x2, y2, widthAndHeight) => {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) / widthAndHeight

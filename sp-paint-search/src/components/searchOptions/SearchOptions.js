@@ -59,8 +59,8 @@ const SearchOptions = ({onAlbumsChoose, onDetailLevelChange}) => {
     return (
         <div className="outer">
             <div className="labels">
-                <label>Unprecise</label>
                 <label>Detailed</label>
+                <label>Unprecised</label>
             </div>
             <input 
                 value={detail} 
