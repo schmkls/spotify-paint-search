@@ -86,11 +86,9 @@ export const getColorAt = (imgData, x, y, radius) => {
     let g = 0
     let b = 0
     radius = Math.max(1, radius)
-    console.log('radius: ' + radius + '');
 
     for (let yPos = Math.max(0, y - radius); yPos < Math.min(imgData.height, y + radius); yPos++) {
         for (let xPos = Math.max(0, x - radius); xPos < Math.min(imgData.width, x + radius); xPos++) {
-            console.log('xPos: ' + xPos + ', yPos: ' + yPos + '');
             pixel = getPixelColor(imgData, xPos, yPos)
             r += pixel.r
             g += pixel.g
@@ -98,8 +96,6 @@ export const getColorAt = (imgData, x, y, radius) => {
             count++
         }
     }
-
-    console.log('count: ' + count + ', r: ' + r + ', g: ' + g + ', b: ' + b + '');
 
     return {
         r: r / count,

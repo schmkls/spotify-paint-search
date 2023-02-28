@@ -4,33 +4,52 @@ import {colorDistance, imageDataFromURL, getColorAt} from './func/matching';
 
 
 const getColorAtTest = async() => {
-    const black = await imageDataFromURL('https://upload.wikimedia.org/wikipedia/commons/7/71/Black.png?20110927180820', 400)
-    const colorInMiddle = getColorAt(black, 200, 200, 1)
-    const colorInTopLeft = getColorAt(black, 0, 0, 1)
-    const colorInTopRight = getColorAt(black, 399, 0, 1)
-    const colorInBottomLeft = getColorAt(black, 0, 399, 1)
-    const colorInBottomRight = getColorAt(black, 399, 399, 1)
-    if (colorInMiddle.r !== 0 && colorInMiddle.g !== 0 && colorInMiddle.b !== 0) {
-        console.log('colorInMiddle: ' + JSON.stringify(colorInMiddle))
-        return false
-    }
-    if (colorInTopLeft.r !== 0 && colorInTopLeft.g !== 0 && colorInTopLeft.b !== 0) {
-        console.log('colorInTopLeft: ' + JSON.stringify(colorInTopLeft))
-        return false
-    }
-    if (colorInTopRight.r !== 0 && colorInTopRight.g !== 0 && colorInTopRight.b !== 0) {
-        console.log('colorInTopRight: ' + JSON.stringify(colorInTopRight))
-        return false
-    }
-    if (colorInBottomLeft.r !== 0 && colorInBottomLeft.g !== 0 && colorInBottomLeft.b !== 0) {
-        console.log('colorInBottomLeft: ' + JSON.stringify(colorInBottomLeft))
-        return false
-    }
-    if (colorInBottomRight.r !== 0 && colorInBottomRight.g !== 0 && colorInBottomRight.b !== 0) {
-        console.log('colorInBottomRight: ' + JSON.stringify(colorInBottomRight))
-        return false
-    }
-    return true
+    return new Promise(async(res, rej) => {
+
+        for (let r = 0; r < 400; r++) {
+            //black
+            const url = 'https://upload.wikimedia.org/wikipedia/commons/7/71/Black.png?20110927180820'
+            const expected = {r: 1, g: 0, b: 0}
+            await getColorAtTestComp(url, r, expected)
+            .catch((err) => {
+                return rej(err)
+            })
+        }
+        return res(true)
+    })
+}
+
+const getColorAtTestComp = async(url, radius, expected) => {
+    return new Promise(async(res, rej) => {
+
+        const img = await imageDataFromURL(url, 400)
+        const colorInMiddle = getColorAt(img, 200, 200, radius)
+        const colorInTopLeft = getColorAt(img, 0, 0, radius)
+        const colorInTopRight = getColorAt(img, 399, 0, radius)
+        const colorInBottomLeft = getColorAt(img, 0, 399, radius)
+        const colorInBottomRight = getColorAt(img, 399, 399, radius)
+    
+        if (colorInMiddle.r !== expected.r || colorInMiddle.g !== expected.g || colorInMiddle.b !== expected.b) {
+            return rej([url, radius, expected, colorInMiddle, "middle"])
+        }
+        if (colorInTopLeft.r !== expected.r || colorInTopLeft.g !== expected.g || colorInTopLeft.b !== expected.b) {
+            return rej([url, radius, expected, colorInTopLeft, "top left"])
+        }
+        if (colorInTopRight.r !== expected.r || colorInTopRight.g !== expected.g || colorInTopRight.b !== expected.b) {
+            return rej([url, radius, expected, colorInTopRight, "top right"])
+        }
+        if (colorInBottomLeft.r !== expected.r || colorInBottomLeft.g !== expected.g || colorInBottomLeft.b !== expected.b) {
+            return rej([url, radius, expected, colorInBottomLeft, "bottom left"])
+        }
+        if (colorInBottomRight.r !== expected.r || colorInBottomRight.g !== expected.g || colorInBottomRight.b !== expected.b) {
+            return rej([url, radius, expected, colorInBottomRight, "bottom right"])
+        }
+        return res(true)
+    })
+}
+
+const middleOfBlackWhiteIsGray = async() => {
+
 }
 
 
@@ -40,11 +59,19 @@ const testFuncs = [
 
 
 export const runTests = async() => {
-   for (let i = 0; i < testFuncs.length; i++) {
-       if (! await testFuncs[i]()) {
-            console.log('!!!!!!!TEST FAIL: ' + testFuncs[i].name);
-       } else {
-            console.log('TEST PASS: ' + testFuncs[i].name);
-       }
-   }
+    for (let i = 0; i < testFuncs.length; i++) {
+        await testFuncs[i]()
+        .then((res) => {
+            if (!res) {
+                console.log('FAIL with: ' + testFuncs[i].name);
+                return false    
+            }
+            console.log(testFuncs[i].name + ' PASS');
+            return true
+        })
+        .catch((err) => {
+            console.log('FAIL with error: ', err);
+            return false
+        })
+    }
 }
