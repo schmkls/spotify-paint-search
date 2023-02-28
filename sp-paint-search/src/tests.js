@@ -6,11 +6,21 @@ import {colorDistance, imageDataFromURL, getColorAt} from './func/matching';
 const getColorAtTest = async() => {
     return new Promise(async(res, rej) => {
 
-        for (let r = 0; r < 400; r++) {
-            //black
-            const url = 'https://upload.wikimedia.org/wikipedia/commons/7/71/Black.png?20110927180820'
-            const expected = {r: 1, g: 0, b: 0}
-            await getColorAtTestComp(url, r, expected)
+        for (let r = 1; r < 400; r++) {
+            const blackUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/71/Black.png?20110927180820'
+            await getColorAtTestComp(blackUrl, r, {r: 0, g: 0, b: 0})
+            .catch((err) => {
+                return rej(err)
+            })
+
+            const whiteUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/1024px-Solid_white.svg.png'
+            await getColorAtTestComp(whiteUrl, r, {r: 255, g: 255, b: 255})
+            .catch((err) => {
+                return rej(err)
+            })
+
+            const purpleUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Solid_purple.svg/512px-Solid_purple.svg.png?20150316143836'
+            await getColorAtTestComp(purpleUrl, r, {r: 102, g: 0, b: 153})
             .catch((err) => {
                 return rej(err)
             })
@@ -49,12 +59,16 @@ const getColorAtTestComp = async(url, radius, expected) => {
 }
 
 const middleOfBlackWhiteIsGray = async() => {
-
+    const img = await imageDataFromURL('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Chess_Board.svg/600px-Chess_Board.svg.png', 600)
+    const clr = getColorAt(img, 300, 300, 100)
+    console.log(clr);
+    return Math.max(clr.r - 127, clr.g - 127, clr.b - 127) < 2
 }
 
 
 const testFuncs = [
-    getColorAtTest
+    getColorAtTest, 
+    middleOfBlackWhiteIsGray
 ]
 
 

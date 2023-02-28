@@ -85,7 +85,10 @@ export const getColorAt = (imgData, x, y, radius) => {
     let r = 0
     let g = 0
     let b = 0
-    radius = Math.max(1, radius)
+
+    if (radius === 0) {
+        return getPixelColor(imgData, x, y)
+    }
 
     for (let yPos = Math.max(0, y - radius); yPos < Math.min(imgData.height, y + radius); yPos++) {
         for (let xPos = Math.max(0, x - radius); xPos < Math.min(imgData.width, x + radius); xPos++) {
