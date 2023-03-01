@@ -61,21 +61,22 @@ export const getSimilarity = (drawnImgData, imgData, detailLevel) => {
     let similarity = 0
     let width = Math.min(drawnImgData.width, imgData.width)
     let height = Math.min(drawnImgData.height, imgData.height)
-    let radius = Math.min(width, height) * detailLevel
-    console.log('detailLevel: ' + detailLevel)
-    console.log('radius: ' + radius)
+    let radius = Math.min(width, height) * detailLevel + 1
+    let comparisonCount = 0
 
     let avgColor
     let drawedColor
     
-    for (let y = radius / 2; y < height; y += radius) {
-        for (let x = radius / 2; x < width; x += radius) {
+    for (let y = 0 - radius; y < height; y += radius) {
+        for (let x = 0 - radius; x < width; x += radius) {
             avgColor = getColorAt(imgData, x, y, radius)
             drawedColor = getColorAt(drawnImgData, x, y, radius)
             similarity += colorMatch(avgColor, drawedColor)
-            console.log('average color at ' + x + ', ' + y + ': ' + JSON.stringify(avgColor))
+            comparisonCount++
         }
     }
+    console.log('comparison count: ' + comparisonCount)
+    console.log('diameter: ', radius * 2)
     return similarity
 }
 
@@ -85,13 +86,14 @@ export const getColorAt = (imgData, x, y, radius) => {
     let r = 0
     let g = 0
     let b = 0
+    let diameter = radius * 2
 
     if (radius === 0) {
         return getPixelColor(imgData, x, y)
     }
 
-    for (let yPos = Math.max(0, y - radius); yPos < Math.min(imgData.height, y + radius); yPos++) {
-        for (let xPos = Math.max(0, x - radius); xPos < Math.min(imgData.width, x + radius); xPos++) {
+    for (let yPos = Math.max(0, y - diameter); yPos < Math.min(imgData.height, y + diameter); yPos++) {
+        for (let xPos = Math.max(0, x - diameter); xPos < Math.min(imgData.width, x + diameter); xPos++) {
             pixel = getPixelColor(imgData, xPos, yPos)
             r += pixel.r
             g += pixel.g

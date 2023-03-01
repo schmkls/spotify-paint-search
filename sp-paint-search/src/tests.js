@@ -1,6 +1,6 @@
 //own simple testing module
 
-import {colorDistance, imageDataFromURL, getColorAt} from './func/matching';
+import {imageDataFromURL, getColorAt, getSimilarity} from './func/matching';
 
 
 const getColorAtTest = async() => {
@@ -65,10 +65,18 @@ const middleOfBlackWhiteIsGray = async() => {
     return Math.max(clr.r - 127, clr.g - 127, clr.b - 127) < 2
 }
 
+const similarityOfPurpleAndPurpleIsZero = async() => {
+    const purpleImg = await imageDataFromURL('https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Solid_purple.svg/512px-Solid_purple.svg.png?20150316143836', 400)
+    const purpleImg2 = await imageDataFromURL('https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Solid_purple.svg/512px-Solid_purple.svg.png?20150316143836', 400)
+    const similarity = getSimilarity(purpleImg, purpleImg2, 0.5)
+    return similarity === 0
+}
+
 
 const testFuncs = [
-    getColorAtTest, 
-    middleOfBlackWhiteIsGray
+    similarityOfPurpleAndPurpleIsZero,
+    //getColorAtTest, 
+    //middleOfBlackWhiteIsGray
 ]
 
 
