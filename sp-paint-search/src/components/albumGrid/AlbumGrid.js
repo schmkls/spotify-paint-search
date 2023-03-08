@@ -2,28 +2,31 @@ import Album from "../album/Album"
 import {React} from 'react';
 import './AlbumGrid.css'
 
-
-
+const COLS = 3
+const ROWS = 3
 
 const AlbumGrid = ({albums}) => {
     
+    let albumGrid = []
+    for (let r = 0; r < ROWS; r++) {
+        albumGrid.push(albums.slice(r * COLS, r * COLS + COLS))
+    }
+
+    console.log(albumGrid);
+
     return (
         <div className="album-grid">
-            <div className="row">
-                <Album uri={albums[0]}/>
-                <Album uri={albums[1 % albums.length]}/>
-                <Album uri={albums[2 % albums.length]}/>
-            </div>
-            <div className="row">
-                <Album uri={albums[3 % albums.length]}/>
-                <Album uri={albums[4 % albums.length]}/>
-                <Album uri={albums[5 % albums.length]}/>
-            </div>
-            <div className="row">
-                <Album uri={albums[6 % albums.length]}/>
-                <Album uri={albums[7 % albums.length]}/>
-                <Album uri={albums[8 % albums.length]}/>
-            </div>
+            {
+                albumGrid.map((row, index) => 
+                    <div className="row" key={index}>
+                        {
+                            row.map((album, index) => 
+                                <Album uri={row[index % albums.length]} key={album}/>
+                            )
+                        }
+                    </div>
+                )
+            }
         </div>
     )
 
